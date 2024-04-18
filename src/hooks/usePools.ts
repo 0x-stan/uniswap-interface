@@ -43,6 +43,7 @@ class PoolCache {
         fee,
       }),
     }
+    console.log(fee, address)
     this.addresses.unshift(address)
     return address.address
   }

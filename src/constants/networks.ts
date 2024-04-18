@@ -24,25 +24,32 @@ export const FALLBACK_URLS: { [key in SupportedChainId]: string[] } = {
     'https://rpc.ankr.com/eth',
     'https://eth-mainnet.public.blastapi.io',
   ],
-  [SupportedChainId.ROPSTEN]: [
-    // "Fallback" URLs
-    'https://rpc.ankr.com/eth_ropsten',
-  ],
-  [SupportedChainId.RINKEBY]: [
-    // "Fallback" URLs
-    'https://rinkeby-light.eth.linkpool.io/',
-  ],
-  [SupportedChainId.GOERLI]: [
+  [SupportedChainId.ZKSYNC_ERA]: [
     // "Safe" URLs
-    'https://rpc.goerli.mudit.blog/',
+    'https://mainnet.era.zksync.io',
     // "Fallback" URLs
-    'https://rpc.ankr.com/eth_goerli',
+    'https://1rpc.io/zksync2-era',
   ],
-  [SupportedChainId.KOVAN]: [
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: [
     // "Safe" URLs
-    'https://kovan.poa.network',
+    'https://sepolia.era.zksync.dev',
     // "Fallback" URLs
-    'https://eth-kovan.public.blastapi.io',
+    'https://zksync-sepolia.drpc.org',
+  ],
+  [SupportedChainId.ZKSYNC_ERA_INMEMORY]: [
+    // "Safe" URLs
+    'http://127.0.0.1:8011',
+  ],
+  [SupportedChainId.SEPOLIA]: [
+    // "Safe" URLs
+    'https://rpc.sepolia.dev/',
+    // "Fallback" URLs
+    'https://rpc.sepolia.org/',
+    'https://rpc2.sepolia.org/',
+    'https://rpc.sepolia.online/',
+    'https://www.sepoliarpc.space/',
+    'https://rpc-sepolia.rockx.com/',
+    'https://rpc.bordel.wtf/sepolia',
   ],
   [SupportedChainId.POLYGON]: [
     // "Safe" URLs
@@ -98,16 +105,33 @@ export const RPC_URLS: { [key in SupportedChainId]: string[] } = {
     `https://mainnet.infura.io/v3/${INFURA_KEY}`,
     ...FALLBACK_URLS[SupportedChainId.MAINNET],
   ],
-  [SupportedChainId.RINKEBY]: [
-    `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
-    ...FALLBACK_URLS[SupportedChainId.RINKEBY],
+  [SupportedChainId.SEPOLIA]: [
+    // "Safe" URLs
+    'https://rpc.sepolia.dev/',
+    // "Fallback" URLs
+    'https://rpc.sepolia.org/',
+    'https://rpc2.sepolia.org/',
+    'https://rpc.sepolia.online/',
+    'https://www.sepoliarpc.space/',
+    'https://rpc-sepolia.rockx.com/',
+    'https://rpc.bordel.wtf/sepolia',
   ],
-  [SupportedChainId.ROPSTEN]: [
-    `https://ropsten.infura.io/v3/${INFURA_KEY}`,
-    ...FALLBACK_URLS[SupportedChainId.ROPSTEN],
+  [SupportedChainId.ZKSYNC_ERA]: [
+    // "Safe" URLs
+    'https://mainnet.era.zksync.io',
+    // "Fallback" URLs
+    'https://1rpc.io/zksync2-era',
   ],
-  [SupportedChainId.GOERLI]: [`https://goerli.infura.io/v3/${INFURA_KEY}`, ...FALLBACK_URLS[SupportedChainId.GOERLI]],
-  [SupportedChainId.KOVAN]: [`https://kovan.infura.io/v3/${INFURA_KEY}`, ...FALLBACK_URLS[SupportedChainId.KOVAN]],
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: [
+    // "Safe" URLs
+    'https://sepolia.era.zksync.dev',
+    // "Fallback" URLs
+    'https://zksync-sepolia.drpc.org',
+  ],
+  [SupportedChainId.ZKSYNC_ERA_INMEMORY]: [
+    // "Safe" URLs
+    'http://127.0.0.1:8011',
+  ],
   [SupportedChainId.OPTIMISM]: [
     `https://optimism-mainnet.infura.io/v3/${INFURA_KEY}`,
     ...FALLBACK_URLS[SupportedChainId.OPTIMISM],

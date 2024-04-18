@@ -3,10 +3,11 @@
  */
 export enum SupportedChainId {
   MAINNET = 1,
-  ROPSTEN = 3,
-  RINKEBY = 4,
-  GOERLI = 5,
-  KOVAN = 42,
+  SEPOLIA = 11155111,
+
+  ZKSYNC_ERA = 324,
+  ZKSYNC_ERA_SEPOLIA = 300,
+  ZKSYNC_ERA_INMEMORY = 260,
 
   ARBITRUM_ONE = 42161,
   ARBITRUM_RINKEBY = 421611,
@@ -23,10 +24,10 @@ export enum SupportedChainId {
 
 export const CHAIN_IDS_TO_NAMES = {
   [SupportedChainId.MAINNET]: 'mainnet',
-  [SupportedChainId.ROPSTEN]: 'ropsten',
-  [SupportedChainId.RINKEBY]: 'rinkeby',
-  [SupportedChainId.GOERLI]: 'goerli',
-  [SupportedChainId.KOVAN]: 'kovan',
+  [SupportedChainId.SEPOLIA]: 'sepolia',
+  [SupportedChainId.ZKSYNC_ERA]: 'zksync_era',
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: 'zksync_era_sepolia',
+  [SupportedChainId.ZKSYNC_ERA_INMEMORY]: 'zksync_era_inmemory',
   [SupportedChainId.POLYGON]: 'polygon',
   [SupportedChainId.POLYGON_MUMBAI]: 'polygon_mumbai',
   [SupportedChainId.CELO]: 'celo',
@@ -50,6 +51,7 @@ export function isSupportedChain(chainId: number | null | undefined): chainId is
 
 export const SUPPORTED_GAS_ESTIMATE_CHAIN_IDS = [
   SupportedChainId.MAINNET,
+  SupportedChainId.ZKSYNC_ERA,
   SupportedChainId.POLYGON,
   SupportedChainId.CELO,
   SupportedChainId.OPTIMISM,
@@ -66,10 +68,7 @@ export const UNSUPPORTED_V2POOL_CHAIN_IDS = [
 ]
 
 export const TESTNET_CHAIN_IDS = [
-  SupportedChainId.ROPSTEN,
-  SupportedChainId.RINKEBY,
-  SupportedChainId.GOERLI,
-  SupportedChainId.KOVAN,
+  SupportedChainId.ZKSYNC_ERA_SEPOLIA,
   SupportedChainId.POLYGON_MUMBAI,
   SupportedChainId.ARBITRUM_RINKEBY,
   SupportedChainId.OPTIMISM_GOERLI,
@@ -82,10 +81,6 @@ export type SupportedTestnetChainId = typeof TESTNET_CHAIN_IDS[number]
  */
 export const L1_CHAIN_IDS = [
   SupportedChainId.MAINNET,
-  SupportedChainId.ROPSTEN,
-  SupportedChainId.RINKEBY,
-  SupportedChainId.GOERLI,
-  SupportedChainId.KOVAN,
   SupportedChainId.POLYGON,
   SupportedChainId.POLYGON_MUMBAI,
   SupportedChainId.CELO,
@@ -99,6 +94,8 @@ export type SupportedL1ChainId = typeof L1_CHAIN_IDS[number]
  * The expectation is that all of these networks have immediate transaction confirmation.
  */
 export const L2_CHAIN_IDS = [
+  SupportedChainId.ZKSYNC_ERA,
+  SupportedChainId.ZKSYNC_ERA_SEPOLIA,
   SupportedChainId.ARBITRUM_ONE,
   SupportedChainId.ARBITRUM_RINKEBY,
   SupportedChainId.OPTIMISM,

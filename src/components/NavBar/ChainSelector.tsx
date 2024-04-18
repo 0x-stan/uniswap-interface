@@ -21,6 +21,8 @@ import { NavDropdown } from './NavDropdown'
 
 const NETWORK_SELECTOR_CHAINS = [
   SupportedChainId.MAINNET,
+  SupportedChainId.ZKSYNC_ERA,
+  SupportedChainId.ZKSYNC_ERA_SEPOLIA,
   SupportedChainId.POLYGON,
   SupportedChainId.OPTIMISM,
   SupportedChainId.ARBITRUM_ONE,

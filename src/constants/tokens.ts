@@ -4,6 +4,8 @@ import invariant from 'tiny-invariant'
 import { UNI_ADDRESS } from './addresses'
 import { SupportedChainId } from './chains'
 
+import zksyncSepoliaAddress from './zksync-address/addresses.sepolia.json'
+
 export const NATIVE_CHAIN_ID = 'NATIVE'
 
 // When decimals are not specified for an ERC20 token
@@ -14,34 +16,6 @@ export const DEFAULT_ERC20_DECIMALS = 18
 export const USDC_MAINNET = new Token(
   SupportedChainId.MAINNET,
   '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-  6,
-  'USDC',
-  'USD//C'
-)
-export const USDC_ROPSTEN = new Token(
-  SupportedChainId.ROPSTEN,
-  '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
-  6,
-  'USDC',
-  'USD//C'
-)
-export const USDC_RINKEBY = new Token(
-  SupportedChainId.RINKEBY,
-  '0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b',
-  6,
-  'tUSDC',
-  'test USD//C'
-)
-export const USDC_GOERLI = new Token(
-  SupportedChainId.GOERLI,
-  '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
-  6,
-  'USDC',
-  'USD//C'
-)
-export const USDC_KOVAN = new Token(
-  SupportedChainId.KOVAN,
-  '0x31eeb2d0f9b6fd8642914ab10f4dd473677d80df',
   6,
   'USDC',
   'USD//C'
@@ -130,20 +104,18 @@ export const DAI_OPTIMISM = new Token(
   'DAI',
   'Dai stable coin'
 )
-export const USDC: { [chainId in SupportedChainId]: Token } = {
+export const USDC: { [chainId: number]: Token } = {
   [SupportedChainId.MAINNET]: USDC_MAINNET,
+  [SupportedChainId.SEPOLIA]: USDC_MAINNET,
+  [SupportedChainId.ZKSYNC_ERA]: USDC_MAINNET,
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: USDC_MAINNET,
+  [SupportedChainId.ZKSYNC_ERA_INMEMORY]: USDC_MAINNET,
   [SupportedChainId.ARBITRUM_ONE]: USDC_ARBITRUM,
   [SupportedChainId.OPTIMISM]: USDC_OPTIMISM,
-  [SupportedChainId.ARBITRUM_RINKEBY]: USDC_ARBITRUM_RINKEBY,
-  [SupportedChainId.OPTIMISM_GOERLI]: USDC_OPTIMISM_GOERLI,
   [SupportedChainId.POLYGON]: USDC_POLYGON,
   [SupportedChainId.POLYGON_MUMBAI]: USDC_POLYGON_MUMBAI,
   [SupportedChainId.CELO]: PORTAL_USDC_CELO,
   [SupportedChainId.CELO_ALFAJORES]: USDC_CELO_ALFAJORES,
-  [SupportedChainId.GOERLI]: USDC_GOERLI,
-  [SupportedChainId.RINKEBY]: USDC_RINKEBY,
-  [SupportedChainId.KOVAN]: USDC_KOVAN,
-  [SupportedChainId.ROPSTEN]: USDC_ROPSTEN,
 }
 export const DAI_POLYGON = new Token(
   SupportedChainId.POLYGON,
@@ -343,16 +315,49 @@ export const CEUR_CELO_ALFAJORES = new Token(
   'Celo Euro Stablecoin'
 )
 
+export const DLD_ZKSYNC_ERA_SEPOLIA = new Token(
+  SupportedChainId.ZKSYNC_ERA_SEPOLIA,
+  '0x264d10475eF47cFABdD3A0592d285ac612A4586D',
+  18,
+  'DLD',
+  'DappLearning Test Token'
+)
+
+export const DLZT_ZKSYNC_ERA_SEPOLIA = new Token(
+  SupportedChainId.ZKSYNC_ERA_SEPOLIA,
+  '0x0581364e148898c641D7741094bC9123F5Cb959F',
+  18,
+  'DLZT',
+  'DappLearningZksyncTutorial'
+)
+
 export const UNI: { [chainId: number]: Token } = {
   [SupportedChainId.MAINNET]: new Token(SupportedChainId.MAINNET, UNI_ADDRESS[1], 18, 'UNI', 'Uniswap'),
-  [SupportedChainId.RINKEBY]: new Token(SupportedChainId.RINKEBY, UNI_ADDRESS[4], 18, 'UNI', 'Uniswap'),
-  [SupportedChainId.ROPSTEN]: new Token(SupportedChainId.ROPSTEN, UNI_ADDRESS[3], 18, 'UNI', 'Uniswap'),
-  [SupportedChainId.GOERLI]: new Token(SupportedChainId.GOERLI, UNI_ADDRESS[5], 18, 'UNI', 'Uniswap'),
-  [SupportedChainId.KOVAN]: new Token(SupportedChainId.KOVAN, UNI_ADDRESS[42], 18, 'UNI', 'Uniswap'),
 }
 
 export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } = {
   ...(WETH9 as Record<SupportedChainId, Token>),
+  [SupportedChainId.ZKSYNC_ERA]: new Token(
+    SupportedChainId.ZKSYNC_ERA,
+    '0xf00DAD97284D0c6F06dc4Db3c32454D4292c6813',
+    18,
+    'WETH',
+    'Wrapped Ether'
+  ),
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: new Token(
+    SupportedChainId.ZKSYNC_ERA_SEPOLIA,
+    zksyncSepoliaAddress.WETH,
+    18,
+    'WETH',
+    'Wrapped Ether'
+  ),
+  [SupportedChainId.ZKSYNC_ERA_INMEMORY]: new Token(
+    SupportedChainId.ZKSYNC_ERA_INMEMORY,
+    zksyncSepoliaAddress.WETH,
+    18,
+    'WETH',
+    'Wrapped Ether'
+  ),
   [SupportedChainId.OPTIMISM]: new Token(
     SupportedChainId.OPTIMISM,
     '0x4200000000000000000000000000000000000006',
@@ -487,9 +492,5 @@ export const TOKEN_SHORTHANDS: { [shorthand: string]: { [chainId in SupportedCha
     [SupportedChainId.POLYGON_MUMBAI]: USDC_POLYGON_MUMBAI.address,
     [SupportedChainId.CELO]: PORTAL_USDC_CELO.address,
     [SupportedChainId.CELO_ALFAJORES]: PORTAL_USDC_CELO.address,
-    [SupportedChainId.GOERLI]: USDC_GOERLI.address,
-    [SupportedChainId.RINKEBY]: USDC_RINKEBY.address,
-    [SupportedChainId.KOVAN]: USDC_KOVAN.address,
-    [SupportedChainId.ROPSTEN]: USDC_ROPSTEN.address,
   },
 }

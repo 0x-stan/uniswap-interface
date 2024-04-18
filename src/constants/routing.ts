@@ -13,6 +13,8 @@ import {
   DAI_ARBITRUM_ONE,
   DAI_OPTIMISM,
   DAI_POLYGON,
+  DLD_ZKSYNC_ERA_SEPOLIA,
+  DLZT_ZKSYNC_ERA_SEPOLIA,
   ETH2X_FLI,
   FEI,
   FRAX,
@@ -122,21 +124,15 @@ export const COMMON_BASES: ChainCurrencyList = {
     WBTC,
     WRAPPED_NATIVE_CURRENCY[SupportedChainId.MAINNET] as Token,
   ],
-  [SupportedChainId.ROPSTEN]: [
-    nativeOnChain(SupportedChainId.ROPSTEN),
-    WRAPPED_NATIVE_CURRENCY[SupportedChainId.ROPSTEN] as Token,
+  [SupportedChainId.ZKSYNC_ERA]: [
+    nativeOnChain(SupportedChainId.ZKSYNC_ERA),
+    WRAPPED_NATIVE_CURRENCY[SupportedChainId.ZKSYNC_ERA] as Token,
   ],
-  [SupportedChainId.RINKEBY]: [
-    nativeOnChain(SupportedChainId.RINKEBY),
-    WRAPPED_NATIVE_CURRENCY[SupportedChainId.RINKEBY] as Token,
-  ],
-  [SupportedChainId.GOERLI]: [
-    nativeOnChain(SupportedChainId.GOERLI),
-    WRAPPED_NATIVE_CURRENCY[SupportedChainId.GOERLI] as Token,
-  ],
-  [SupportedChainId.KOVAN]: [
-    nativeOnChain(SupportedChainId.KOVAN),
-    WRAPPED_NATIVE_CURRENCY[SupportedChainId.KOVAN] as Token,
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: [
+    nativeOnChain(SupportedChainId.ZKSYNC_ERA),
+    DLD_ZKSYNC_ERA_SEPOLIA,
+    DLZT_ZKSYNC_ERA_SEPOLIA,
+    WRAPPED_NATIVE_CURRENCY[SupportedChainId.ZKSYNC_ERA_SEPOLIA] as Token,
   ],
   [SupportedChainId.ARBITRUM_ONE]: [
     nativeOnChain(SupportedChainId.ARBITRUM_ONE),

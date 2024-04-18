@@ -3,6 +3,7 @@ import { FACTORY_ADDRESS as V3_FACTORY_ADDRESS } from '@uniswap/v3-sdk'
 
 import { constructSameAddressMap } from '../utils/constructSameAddressMap'
 import { SupportedChainId } from './chains'
+import zksyncSepoliaAddress from './zksync-address/addresses.sepolia.json'
 
 type AddressMap = { [chainId: number]: string }
 
@@ -32,6 +33,8 @@ export const V3_CORE_FACTORY_ADDRESSES: AddressMap = {
     SupportedChainId.POLYGON_MUMBAI,
     SupportedChainId.POLYGON,
   ]),
+  [SupportedChainId.ZKSYNC_ERA]: zksyncSepoliaAddress.v3CoreFactoryAddress,
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: zksyncSepoliaAddress.v3CoreFactoryAddress,
   [SupportedChainId.CELO]: CELO_V3_CORE_FACTORY_ADDRESSES,
   [SupportedChainId.CELO_ALFAJORES]: CELO_V3_CORE_FACTORY_ADDRESSES,
 }
@@ -43,6 +46,8 @@ export const V3_MIGRATOR_ADDRESSES: AddressMap = {
     SupportedChainId.POLYGON_MUMBAI,
     SupportedChainId.POLYGON,
   ]),
+  [SupportedChainId.ZKSYNC_ERA]: zksyncSepoliaAddress.v3MigratorAddress,
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: zksyncSepoliaAddress.v3MigratorAddress,
   [SupportedChainId.CELO]: CELO_V3_MIGRATOR_ADDRESSES,
   [SupportedChainId.CELO_ALFAJORES]: CELO_V3_MIGRATOR_ADDRESSES,
 }
@@ -54,6 +59,8 @@ export const MULTICALL_ADDRESS: AddressMap = {
     SupportedChainId.POLYGON_MUMBAI,
     SupportedChainId.POLYGON,
   ]),
+  [SupportedChainId.ZKSYNC_ERA]: zksyncSepoliaAddress.multicall2Address,
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: zksyncSepoliaAddress.multicall2Address,
   [SupportedChainId.ARBITRUM_ONE]: '0xadF885960B47eA2CD9B55E6DAc6B42b7Cb2806dB',
   [SupportedChainId.ARBITRUM_RINKEBY]: '0xa501c031958F579dB7676fF1CE78AD305794d579',
   [SupportedChainId.CELO]: CELO_MULTICALL_ADDRESS,
@@ -69,6 +76,8 @@ export const SWAP_ROUTER_ADDRESSES: AddressMap = {
     SupportedChainId.POLYGON,
     SupportedChainId.POLYGON_MUMBAI,
   ]),
+  [SupportedChainId.ZKSYNC_ERA]: zksyncSepoliaAddress.swapRouter02,
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: zksyncSepoliaAddress.swapRouter02,
   [SupportedChainId.CELO]: CELO_ROUTER_ADDRESS,
   [SupportedChainId.CELO_ALFAJORES]: CELO_ROUTER_ADDRESS,
 }
@@ -111,6 +120,8 @@ export const QUOTER_ADDRESSES: AddressMap = {
     SupportedChainId.POLYGON_MUMBAI,
     SupportedChainId.POLYGON,
   ]),
+  [SupportedChainId.ZKSYNC_ERA]: zksyncSepoliaAddress.quoterV2Address,
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: zksyncSepoliaAddress.quoterV2Address,
   [SupportedChainId.CELO]: CELO_QUOTER_ADDRESSES,
   [SupportedChainId.CELO_ALFAJORES]: CELO_QUOTER_ADDRESSES,
 }
@@ -124,15 +135,14 @@ export const NONFUNGIBLE_POSITION_MANAGER_ADDRESSES: AddressMap = {
     SupportedChainId.POLYGON_MUMBAI,
     SupportedChainId.POLYGON,
   ]),
+  [SupportedChainId.ZKSYNC_ERA]: zksyncSepoliaAddress.nonfungibleTokenPositionManagerAddress,
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: zksyncSepoliaAddress.nonfungibleTokenPositionManagerAddress,
   [SupportedChainId.CELO]: CELO_NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
   [SupportedChainId.CELO_ALFAJORES]: CELO_NONFUNGIBLE_POSITION_MANAGER_ADDRESSES,
 }
 
 export const ENS_REGISTRAR_ADDRESSES: AddressMap = {
   [SupportedChainId.MAINNET]: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
-  [SupportedChainId.ROPSTEN]: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
-  [SupportedChainId.GOERLI]: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
-  [SupportedChainId.RINKEBY]: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
 }
 
 export const SOCKS_CONTROLLER_ADDRESSES: AddressMap = {
@@ -140,6 +150,8 @@ export const SOCKS_CONTROLLER_ADDRESSES: AddressMap = {
 }
 
 export const TICK_LENS_ADDRESSES: AddressMap = {
+  [SupportedChainId.ZKSYNC_ERA]: zksyncSepoliaAddress.tickLensAddress,
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: zksyncSepoliaAddress.tickLensAddress,
   [SupportedChainId.ARBITRUM_ONE]: '0xbfd8137f7d1516D3ea5cA83523914859ec47F573',
   [SupportedChainId.ARBITRUM_RINKEBY]: '0xbfd8137f7d1516D3ea5cA83523914859ec47F573',
   [SupportedChainId.CELO]: CELO_TICK_LENS_ADDRESSES,
