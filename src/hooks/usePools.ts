@@ -1,35 +1,46 @@
 import { Interface } from '@ethersproject/abi'
 import { BigintIsh, Currency, Token } from '@uniswap/sdk-core'
 import { abi as IUniswapV3PoolStateABI } from '@uniswap/v3-core/artifacts/contracts/interfaces/pool/IUniswapV3PoolState.sol/IUniswapV3PoolState.json'
-import { abi as IUniswapV3FactoryABI } from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Factory.sol/IUniswapV3Factory.json'
-// import { computePoolAddress } from '@uniswap/v3-sdk'
+import { computePoolAddress } from '@uniswap/v3-sdk'
+import { defaultAbiCoder } from '@ethersproject/abi'
+import { keccak256 } from '@ethersproject/solidity'
 import { FeeAmount, Pool } from '@uniswap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
 import JSBI from 'jsbi'
 import { useMultipleContractSingleData } from 'lib/hooks/multicall'
-import { useEffect, useMemo, useState } from 'react'
-import { Contract } from '@ethersproject/contracts'
-// import { AddressZero } from '@ethersproject/constants'
-
-// // eslint-disable-next-line no-restricted-imports
-// import { ethers, BytesLike } from 'ethers'
+import { useMemo } from 'react'
 
 import { V3_CORE_FACTORY_ADDRESSES } from '../constants/addresses'
 import { IUniswapV3PoolStateInterface } from '../types/v3/IUniswapV3PoolState'
-import { useContract } from './useContract'
+import { concat, getAddress, toUtf8Bytes, zeroPad } from 'ethers/lib/utils'
+import { isZksyncChainId } from 'utils/chains'
 
 const POOL_STATE_INTERFACE = new Interface(IUniswapV3PoolStateABI) as IUniswapV3PoolStateInterface
-// const POOL_INIT_CODE_HASH = '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54'
+const POOL_INIT_CODE_HASH_ZKSYNC = '0x010000f3875aac1d3c42a99dfe87dbecb6f6c1ba872096a50ec28fee6af1c0d4'
 
-// @todo
-// export function getCreate2Address(sender: string, bytecodeHash: BytesLike, salt: BytesLike, input: BytesLike) {
-//   const prefix = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('zksyncCreate2'))
-//   const inputHash = ethers.utils.keccak256(input)
-//   const addressBytes = ethers.utils
-//     .keccak256(ethers.utils.concat([prefix, ethers.utils.zeroPad(sender, 32), salt, bytecodeHash]))
-//     .slice(26)
-//   return ethers.utils.getAddress(addressBytes)
-// }
+export function computePoolAddressZksync({
+  factoryAddress,
+  tokenA,
+  tokenB,
+  fee,
+}: {
+  factoryAddress: string
+  tokenA: Token
+  tokenB: Token
+  fee: FeeAmount
+}): string {
+  const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA] // does safety checks
+  const salt = keccak256(
+    ['bytes'],
+    [defaultAbiCoder.encode(['address', 'address', 'uint24'], [token0.address, token1.address, fee])]
+  )
+  const prefix = keccak256(['bytes'], [toUtf8Bytes('zksyncCreate2')])
+  const addressBytes = keccak256(
+    ['bytes'],
+    [concat([prefix, zeroPad(factoryAddress, 32), salt, POOL_INIT_CODE_HASH_ZKSYNC])]
+  ).slice(26)
+  return getAddress(addressBytes)
+}
 
 // Classes are expensive to instantiate, so this caches the recently instantiated pools.
 // This avoids re-instantiating pools as the other pools in the same request are loaded.
@@ -41,51 +52,35 @@ class PoolCache {
   private static pools: Pool[] = []
   private static addresses: { key: string; address: string }[] = []
 
-  static async getPoolAddress(
-    v3Factory: Contract,
-    factoryAddress: string,
-    tokenA: Token,
-    tokenB: Token,
-    fee: FeeAmount
-  ): Promise<string> {
-    return new Promise(async (resolve, reject) => {
-      if (this.addresses.length > this.MAX_ENTRIES) {
-        this.addresses = this.addresses.slice(0, this.MAX_ENTRIES / 2)
-      }
+  static getPoolAddress(chainId: number, factoryAddress: string, tokenA: Token, tokenB: Token, fee: FeeAmount): string {
+    if (this.addresses.length > this.MAX_ENTRIES) {
+      this.addresses = this.addresses.slice(0, this.MAX_ENTRIES / 2)
+    }
 
-      const { address: addressA } = tokenA
-      const { address: addressB } = tokenB
-      const key = `${factoryAddress}:${addressA}:${addressB}:${fee.toString()}`
-      const found = this.addresses.find((address) => address.key === key)
-      if (found) {
-        resolve(found.address)
-        return
-      }
+    const { address: addressA } = tokenA
+    const { address: addressB } = tokenB
+    const key = `${factoryAddress}:${addressA}:${addressB}:${fee.toString()}`
+    const found = this.addresses.find((address) => address.key === key)
+    if (found) return found.address
 
-      const _poolAddress = await v3Factory?.getPool(tokenA.address, tokenB.address, fee.toString())
-
-      const address = {
-        key,
-        address: _poolAddress,
-        // address: getCreate2Address(
-        //   factoryAddress,
-        //   ethers.utils.keccak256(
-        //     ethers.utils.defaultAbiCoder.encode(['address', 'address', 'uint24'], [token0.address, token1.address, fee])
-        //   ),
-        //   POOL_INIT_CODE_HASH,
-        //   ''
-        // ),
-        // address: computePoolAddress({
-        //   factoryAddress,
-        //   tokenA,
-        //   tokenB,
-        //   fee,
-        // }),
-      }
-
-      this.addresses.unshift(address)
-      resolve(address.address)
-    })
+    const address = {
+      key,
+      address: isZksyncChainId(chainId)
+        ? computePoolAddressZksync({
+            factoryAddress,
+            tokenA,
+            tokenB,
+            fee,
+          })
+        : computePoolAddress({
+            factoryAddress,
+            tokenA,
+            tokenB,
+            fee,
+          }),
+    }
+    this.addresses.unshift(address)
+    return address.address
   }
 
   static getPool(
@@ -128,8 +123,6 @@ export function usePools(
   poolKeys: [Currency | undefined, Currency | undefined, FeeAmount | undefined][]
 ): [PoolState, Pool | null][] {
   const { chainId } = useWeb3React()
-  const v3CoreFactoryAddress = chainId ? V3_CORE_FACTORY_ADDRESSES[chainId] : undefined
-  const v3Factory = useContract(v3CoreFactoryAddress, IUniswapV3FactoryABI)
 
   const poolTokens: ([Token, Token, FeeAmount] | undefined)[] = useMemo(() => {
     if (!chainId) return new Array(poolKeys.length)
@@ -146,17 +139,11 @@ export function usePools(
     })
   }, [chainId, poolKeys])
 
-  const [poolAddresses, setPoolAddresses] = useState<(string | undefined)[]>([])
-  useEffect(() => {
-    if (!v3CoreFactoryAddress || !v3Factory) {
-      setPoolAddresses(new Array(poolTokens.length))
-      return
-    }
-    Promise.all(
-      poolTokens.map((value) => value && PoolCache.getPoolAddress(v3Factory, v3CoreFactoryAddress, ...value))
-    ).then((res) => {
-      setPoolAddresses(res)
-    })
+  const poolAddresses: (string | undefined)[] = useMemo(() => {
+    const v3CoreFactoryAddress = chainId && V3_CORE_FACTORY_ADDRESSES[chainId]
+    if (!v3CoreFactoryAddress) return new Array(poolTokens.length)
+
+    return poolTokens.map((value) => value && PoolCache.getPoolAddress(chainId, v3CoreFactoryAddress, ...value))
   }, [chainId, poolTokens])
 
   const slot0s = useMultipleContractSingleData(poolAddresses, POOL_STATE_INTERFACE, 'slot0')

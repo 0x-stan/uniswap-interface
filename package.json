@@ -236,6 +236,7 @@
     "workbox-navigation-preload": "^6.1.0",
     "workbox-precaching": "^6.1.0",
     "workbox-routing": "^6.1.0",
+    "zksync-ethers": "5",
     "zustand": "^4.0.0-rc.1"
   },
   "engines": {
