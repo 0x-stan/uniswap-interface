@@ -77,7 +77,7 @@ export default function SearchBar() {
   return (
     <SearchBarContainer>
       <Trans
-        render={({ translation }: { translation: string }) => (
+        render={({ translation }) => (
           <TraceEvent
             events={[BrowserEvent.onFocus]}
             name={EventName.EXPLORE_SEARCH_SELECTED}
