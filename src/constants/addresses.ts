@@ -76,8 +76,8 @@ export const SWAP_ROUTER_ADDRESSES: AddressMap = {
     SupportedChainId.POLYGON,
     SupportedChainId.POLYGON_MUMBAI,
   ]),
-  [SupportedChainId.ZKSYNC_ERA]: zksyncSepoliaAddress.swapRouter02,
-  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: zksyncSepoliaAddress.swapRouter02,
+  [SupportedChainId.ZKSYNC_ERA]: zksyncSepoliaAddress.swapRouter02Address,
+  [SupportedChainId.ZKSYNC_ERA_SEPOLIA]: zksyncSepoliaAddress.swapRouter02Address,
   [SupportedChainId.CELO]: CELO_ROUTER_ADDRESS,
   [SupportedChainId.CELO_ALFAJORES]: CELO_ROUTER_ADDRESS,
 }
