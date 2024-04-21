@@ -64,6 +64,16 @@ const CHAIN_INFO: ChainInfoMap = {
     nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
     color: darkTheme.chain_1,
   },
+  [SupportedChainId.SEPOLIA]: {
+    networkType: NetworkType.L1,
+    docs: 'https://docs.uniswap.org/',
+    explorer: 'https://sepolia.etherscan.io/',
+    infoLink: 'https://info.uniswap.org/#/',
+    label: 'Sepolia',
+    logoUrl: ethereumLogoUrl,
+    nativeCurrency: { name: 'Sepolia Ether', symbol: 'sETH', decimals: 18 },
+    color: darkTheme.chain_4,
+  },
   [SupportedChainId.ZKSYNC_ERA]: {
     networkType: NetworkType.L2,
     bridge: '',
